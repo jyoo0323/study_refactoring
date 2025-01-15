@@ -32,8 +32,8 @@ class StatementTest {
 		}
 
 		//when
-		Statement statement = new Statement();
-		String result = statement.statement(invoice.get(0), playsMap);
+		Statement statement = new Statement(invoice.get(0), playsMap);
+		String result = statement.statement();
 		System.out.println(result);
 
 		//then

@@ -5,7 +5,15 @@ import java.util.Currency;
 import java.util.Locale;
 
 public class Statement {
-	public String statement(Invoice invoice, PlaysMap plays) {
+	private final Invoice invoice;
+	private final PlaysMap plays;
+
+	public Statement(Invoice invoice, PlaysMap plays) {
+		this.invoice = invoice;
+		this.plays = plays;
+	}
+
+	public String statement() {
 		int totalAmount = 0;
 		int volumeCredits = 0;
 		String result = "청구 내역 (고객명: " + invoice.getCustomer() + ")\n";
