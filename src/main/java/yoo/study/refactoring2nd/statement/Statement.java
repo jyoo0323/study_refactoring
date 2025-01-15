@@ -23,13 +23,7 @@ public class Statement {
 		format.setMinimumFractionDigits(2);
 
 		for (Performance perf : invoice.getPerformances()) {
-
-			// 포인트를 적립한다.
-			volumeCredits += Math.max(perf.getAudience() - 30, 0);
-			// 희극 관객 5명마다 추가 포인트를 적립한다.
-			if ("comedy".equals(playFor(perf).getType())) {
-				volumeCredits += Math.floor(perf.getAudience() / 5);
-			}
+			volumeCredits += volumeCreditsFor(perf);
 
 			// 청구 내역을 출력한다.
 			result += String.format("%s: %s (%d석)\n", playFor(perf).getName(), format.format(amountFor(perf) / 100), perf.getAudience());
@@ -65,5 +59,14 @@ public class Statement {
 
 	private Play playFor(Performance aPerformance) {
 		return plays.getPlayById(aPerformance.getPlayID());
+	}
+
+	private int volumeCreditsFor(Performance aPerformance) {
+		int result = 0;
+		result += Math.max(aPerformance.getAudience() - 30, 0);
+		if ("comedy".equals(playFor(aPerformance).getType())) {
+			result += Math.floor(aPerformance.getAudience() / 5);
+		}
+		return result;
 	}
 }
