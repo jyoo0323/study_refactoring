@@ -23,18 +23,17 @@ public class Statement {
 		format.setMinimumFractionDigits(2);
 
 		for (Performance perf : invoice.getPerformances()) {
-			Play play = playFor(perf);
-			int thisAmount = amountFor(perf, play);
+			int thisAmount = amountFor(perf, playFor(perf));
 
 			// 포인트를 적립한다.
 			volumeCredits += Math.max(perf.getAudience() - 30, 0);
 			// 희극 관객 5명마다 추가 포인트를 적립한다.
-			if ("comedy".equals(play.getType())) {
+			if ("comedy".equals(playFor(perf).getType())) {
 				volumeCredits += Math.floor(perf.getAudience() / 5);
 			}
 
 			// 청구 내역을 출력한다.
-			result += String.format("%s: %s (%d석)\n", play.getName(), format.format(thisAmount / 100), perf.getAudience());
+			result += String.format("%s: %s (%d석)\n", playFor(perf).getName(), format.format(thisAmount / 100), perf.getAudience());
 			totalAmount += thisAmount;
 		}
 		result += String.format("총액: %s\n", format.format(totalAmount / 100));
