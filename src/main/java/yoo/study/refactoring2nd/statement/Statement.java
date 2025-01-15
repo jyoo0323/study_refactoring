@@ -23,7 +23,7 @@ public class Statement {
 		format.setMinimumFractionDigits(2);
 
 		for (Performance perf : invoice.getPerformances()) {
-			Play play = plays.getPlayById(perf.getPlayID());
+			Play play = playFor(perf);
 			int thisAmount = amountFor(perf, play);
 
 			// 포인트를 적립한다.
@@ -63,5 +63,9 @@ public class Statement {
 				throw new RuntimeException("알 수 없는 장르: " + play.getType());
 		}
 		return result;
+	}
+
+	private Play playFor(Performance aPerformance) {
+		return plays.getPlayById(aPerformance.getPlayID());
 	}
 }
