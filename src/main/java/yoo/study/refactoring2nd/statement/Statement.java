@@ -20,12 +20,15 @@ public class Statement {
 		String result = "청구 내역 (고객명: " + invoice.getCustomer() + ")\n";
 
 		for (Performance perf : invoice.getPerformances()) {
-			volumeCredits += volumeCreditsFor(perf);
-
 			// 청구 내역을 출력한다.
 			result += String.format("%s: %s (%d석)\n", playFor(perf).getName(), usd(amountFor(perf)), perf.getAudience());
 			totalAmount += amountFor(perf);
 		}
+
+		for (Performance perf : invoice.getPerformances()) {
+			volumeCredits += volumeCreditsFor(perf);
+		}
+
 		result += String.format("총액: %s\n", usd(totalAmount));
 		result += String.format("적립 포인트: %d점\n", volumeCredits);
 
