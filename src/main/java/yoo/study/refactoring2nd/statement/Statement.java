@@ -15,6 +15,10 @@ public class Statement {
 	}
 
 	public String statement() {
+		return renderPlainText();
+	}
+
+	private String renderPlainText() {
 		String result = "청구 내역 (고객명: " + invoice.getCustomer() + ")\n";
 		for (Performance perf : invoice.getPerformances()) {
 			// 청구 내역을 출력한다.
