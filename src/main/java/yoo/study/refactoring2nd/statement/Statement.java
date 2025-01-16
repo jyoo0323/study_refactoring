@@ -43,7 +43,7 @@ public class Statement {
 	}
 
 	private int amountFor(Performance aPerformance) {
-		int result = 0;
+		int result;
 		switch (playFor(aPerformance).getType()) {
 			case "tragedy":
 				result = 40000;
