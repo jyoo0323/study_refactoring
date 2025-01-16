@@ -18,19 +18,15 @@ public class Statement {
 		int totalAmount = 0;
 		int volumeCredits = 0;
 		String result = "청구 내역 (고객명: " + invoice.getCustomer() + ")\n";
-		Currency currency = Currency.getInstance("USD");
-		NumberFormat format = NumberFormat.getCurrencyInstance(Locale.US);
-		format.setCurrency(currency);
-		format.setMinimumFractionDigits(2);
 
 		for (Performance perf : invoice.getPerformances()) {
 			volumeCredits += volumeCreditsFor(perf);
 
 			// 청구 내역을 출력한다.
-			result += String.format("%s: %s (%d석)\n", playFor(perf).getName(), format.format(amountFor(perf) / 100), perf.getAudience());
+			result += String.format("%s: %s (%d석)\n", playFor(perf).getName(), format(amountFor(perf) / 100), perf.getAudience());
 			totalAmount += amountFor(perf);
 		}
-		result += String.format("총액: %s\n", format.format(totalAmount / 100));
+		result += String.format("총액: %s\n", format(totalAmount / 100));
 		result += String.format("적립 포인트: %d점\n", volumeCredits);
 
 		return result;
@@ -69,5 +65,13 @@ public class Statement {
 			result += Math.floor(aPerformance.getAudience() / 5);
 		}
 		return result;
+	}
+
+	private String format(int aNumber) {
+		NumberFormat format = NumberFormat.getCurrencyInstance(Locale.US);
+		Currency currency = Currency.getInstance("USD");
+		format.setCurrency(currency);
+		format.setMinimumFractionDigits(2);
+		return format.format(aNumber);
 	}
 }
