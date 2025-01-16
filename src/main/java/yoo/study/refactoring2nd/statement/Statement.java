@@ -15,11 +15,13 @@ public class Statement {
 	}
 
 	public String statement() {
-		return renderPlainText();
+		StatementData statementData = new StatementData();
+		statementData.setCustomer(invoice.getCustomer());
+		return renderPlainText(statementData);
 	}
 
-	private String renderPlainText() {
-		String result = "청구 내역 (고객명: " + invoice.getCustomer() + ")\n";
+	private String renderPlainText(StatementData statementData) {
+		String result = "청구 내역 (고객명: " + statementData.getCustomer() + ")\n";
 		for (Performance perf : invoice.getPerformances()) {
 			// 청구 내역을 출력한다.
 			result += String.format("%s: %s (%d석)\n", playFor(perf).getName(), usd(amountFor(perf)), perf.getAudience());
