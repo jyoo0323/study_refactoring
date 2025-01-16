@@ -23,10 +23,10 @@ public class Statement {
 			volumeCredits += volumeCreditsFor(perf);
 
 			// 청구 내역을 출력한다.
-			result += String.format("%s: %s (%d석)\n", playFor(perf).getName(), format(amountFor(perf) / 100), perf.getAudience());
+			result += String.format("%s: %s (%d석)\n", playFor(perf).getName(), usd(amountFor(perf)), perf.getAudience());
 			totalAmount += amountFor(perf);
 		}
-		result += String.format("총액: %s\n", format(totalAmount / 100));
+		result += String.format("총액: %s\n", usd(totalAmount));
 		result += String.format("적립 포인트: %d점\n", volumeCredits);
 
 		return result;
@@ -67,11 +67,11 @@ public class Statement {
 		return result;
 	}
 
-	private String format(int aNumber) {
+	private String usd(int aNumber) {
 		NumberFormat format = NumberFormat.getCurrencyInstance(Locale.US);
 		Currency currency = Currency.getInstance("USD");
 		format.setCurrency(currency);
 		format.setMinimumFractionDigits(2);
-		return format.format(aNumber);
+		return format.format(aNumber / 100); //단위 변환 로직도 usd 함수로 이동
 	}
 }
