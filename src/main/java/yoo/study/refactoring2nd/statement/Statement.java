@@ -3,12 +3,13 @@ package yoo.study.refactoring2nd.statement;
 import java.text.NumberFormat;
 import java.util.Currency;
 import java.util.Locale;
+import java.util.Map;
 
 public class Statement {
 	private final Invoice invoice;
-	private final PlaysMap plays;
+	private final Map<String, Play> plays;
 
-	public Statement(Invoice invoice, PlaysMap plays) {
+	public Statement(Invoice invoice, Map<String, Play> plays) {
 		this.invoice = invoice;
 		this.plays = plays;
 	}
@@ -58,7 +59,7 @@ public class Statement {
 	}
 
 	private Play playFor(Performance aPerformance) {
-		return plays.getPlayById(aPerformance.getPlayID());
+		return plays.get(aPerformance.getPlayID());
 	}
 
 	private int volumeCreditsFor(Performance aPerformance) {
