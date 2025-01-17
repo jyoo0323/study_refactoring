@@ -2,6 +2,7 @@ package yoo.study.refactoring2nd.statement;
 
 import java.text.NumberFormat;
 import java.util.Currency;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -17,32 +18,33 @@ public class Statement {
 	public String statement() {
 		StatementData statementData = new StatementData();
 		statementData.setCustomer(invoice.getCustomer());
+		statementData.setPerformances(invoice.getPerformances());
 		return renderPlainText(statementData);
 	}
 
-	private String renderPlainText(StatementData statementData) {
-		String result = "청구 내역 (고객명: " + statementData.getCustomer() + ")\n";
-		for (Performance perf : invoice.getPerformances()) {
+	private String renderPlainText(StatementData data) {
+		String result = "청구 내역 (고객명: " + data.getCustomer() + ")\n";
+		for (Performance perf : data.getPerformances()) {
 			// 청구 내역을 출력한다.
 			result += String.format("%s: %s (%d석)\n", playFor(perf).getName(), usd(amountFor(perf)), perf.getAudience());
 		}
 
-		result += String.format("총액: %s\n", usd(totalAmount()));
-		result += String.format("적립 포인트: %d점\n", totalVolumeCredits());
+		result += String.format("총액: %s\n", usd(totalAmount(data.getPerformances())));
+		result += String.format("적립 포인트: %d점\n", totalVolumeCredits(data.getPerformances()));
 		return result;
 	}
 
-	private int totalAmount() {
+	private int totalAmount(List<Performance> performances) {
 		int result = 0;
-		for (Performance perf : invoice.getPerformances()) {
+		for (Performance perf : performances) {
 			result += amountFor(perf);
 		}
 		return result;
 	}
 
-	private int totalVolumeCredits() {
+	private int totalVolumeCredits(List<Performance> performances) {
 		int result = 0;
-		for (Performance perf : invoice.getPerformances()) {
+		for (Performance perf : performances) {
 			result += volumeCreditsFor(perf);
 		}
 		return result;

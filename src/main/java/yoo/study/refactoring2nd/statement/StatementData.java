@@ -1,5 +1,7 @@
 package yoo.study.refactoring2nd.statement;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,4 +9,5 @@ import lombok.Setter;
 @Setter
 public class StatementData {
 	private String customer;
+	private List<Performance> performances;
 }
