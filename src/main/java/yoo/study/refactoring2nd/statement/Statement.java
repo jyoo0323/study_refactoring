@@ -14,6 +14,33 @@ public class Statement {
 		this.plays = plays;
 	}
 
+	public String htmlStatement() {
+		return renderHtml(
+			StatementData.of(
+				invoice,
+				invoice.getPerformances()
+					.stream()
+					.map(
+						perf -> EnrichedPerformance.create(perf, plays.get(perf.getPlayID()))
+					).toList()
+			));
+	}
+
+	private String renderHtml(StatementData data) {
+		String result = "<h1>청구 내역 (고객명: " + data.getCustomer() + ")</h1>\n";
+		result += "<table>\n";
+		result += "<tr><th>연극</th><th>좌석 수</th><th>금액</th></tr>";
+		for (EnrichedPerformance perf : data.getPerformances()) {
+			result += String.format("<tr><td>%s</td><td>%d석</td>", perf.getPlay().getName(), perf.getAudience());
+			result += String.format("<td>%s</td></tr>\n", usd(perf.getAmount()));
+		}
+		result += "</table>\n";
+		result += String.format("<p>총액: <em>%s</em></p>\n", usd(data.getTotalAmount()));
+		result += String.format("<p>적립 포인트: <em>%d</em>점</p>\n", data.getTotalVolumeCredits());
+
+		return result;
+	}
+
 	public String statement() {
 		return renderPlainText(
 			StatementData.of(
