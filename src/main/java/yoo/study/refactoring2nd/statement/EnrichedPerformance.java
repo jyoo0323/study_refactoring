@@ -9,4 +9,5 @@ public class EnrichedPerformance {
 	private String playId;
 	private Play play;
 	private int audience;
+	private int amount;
 }

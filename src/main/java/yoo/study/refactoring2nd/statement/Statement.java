@@ -28,6 +28,7 @@ public class Statement {
 		result.setPlayId(aPerformance.getPlayID());
 		result.setPlay(plays.get(aPerformance.getPlayID()));
 		result.setAudience(aPerformance.getAudience());
+		result.setAmount(amountFor(result));
 		return result;
 	}
 
@@ -35,7 +36,7 @@ public class Statement {
 		String result = "청구 내역 (고객명: " + data.getCustomer() + ")\n";
 		for (EnrichedPerformance perf : data.getPerformances()) {
 			// 청구 내역을 출력한다.
-			result += String.format("%s: %s (%d석)\n", perf.getPlay().getName(), usd(amountFor(perf)), perf.getAudience());
+			result += String.format("%s: %s (%d석)\n", perf.getPlay().getName(), usd(perf.getAmount()), perf.getAudience());
 		}
 
 		result += String.format("총액: %s\n", usd(totalAmount(data.getPerformances())));
@@ -46,7 +47,7 @@ public class Statement {
 	private int totalAmount(List<EnrichedPerformance> performances) {
 		int result = 0;
 		for (EnrichedPerformance perf : performances) {
-			result += amountFor(perf);
+			result += perf.getAmount();
 		}
 		return result;
 	}
