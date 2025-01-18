@@ -20,6 +20,7 @@ public class Statement {
 		statementData.setCustomer(invoice.getCustomer());
 		statementData.setPerformances(invoice.getPerformances().stream().map(this::enrichPerformance).toList());
 		statementData.setTotalAmount(totalAmount(statementData.getPerformances()));
+		statementData.setTotalVolumeCredits(totalVolumeCredits(statementData.getPerformances()));
 
 		return renderPlainText(statementData);
 	}
@@ -36,7 +37,7 @@ public class Statement {
 		}
 
 		result += String.format("총액: %s\n", usd(data.getTotalAmount()));
-		result += String.format("적립 포인트: %d점\n", totalVolumeCredits(data.getPerformances()));
+		result += String.format("적립 포인트: %d점\n", data.getTotalVolumeCredits());
 		return result;
 	}
 

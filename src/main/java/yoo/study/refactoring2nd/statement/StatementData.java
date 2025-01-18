@@ -11,4 +11,5 @@ public class StatementData {
 	private String customer;
 	private List<EnrichedPerformance> performances;
 	private int totalAmount;
+	private int totalVolumeCredits;
 }
