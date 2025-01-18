@@ -18,15 +18,24 @@ public class Statement {
 	public String statement() {
 		StatementData statementData = new StatementData();
 		statementData.setCustomer(invoice.getCustomer());
-		statementData.setPerformances(invoice.getPerformances());
+		statementData.setPerformances(invoice.getPerformances().stream().map(this::enrichPerformance).toList());
+
 		return renderPlainText(statementData);
+	}
+
+	private EnrichedPerformance enrichPerformance(Performance aPerformance) {
+		EnrichedPerformance result = new EnrichedPerformance();
+		result.setPlayId(aPerformance.getPlayID());
+		result.setPlay(plays.get(aPerformance.getPlayID()));
+		result.setAudience(aPerformance.getAudience());
+		return result;
 	}
 
 	private String renderPlainText(StatementData data) {
 		String result = "청구 내역 (고객명: " + data.getCustomer() + ")\n";
-		for (Performance perf : data.getPerformances()) {
+		for (EnrichedPerformance perf : data.getPerformances()) {
 			// 청구 내역을 출력한다.
-			result += String.format("%s: %s (%d석)\n", playFor(perf).getName(), usd(amountFor(perf)), perf.getAudience());
+			result += String.format("%s: %s (%d석)\n", perf.getPlay().getName(), usd(amountFor(perf)), perf.getAudience());
 		}
 
 		result += String.format("총액: %s\n", usd(totalAmount(data.getPerformances())));
@@ -34,23 +43,23 @@ public class Statement {
 		return result;
 	}
 
-	private int totalAmount(List<Performance> performances) {
+	private int totalAmount(List<EnrichedPerformance> performances) {
 		int result = 0;
-		for (Performance perf : performances) {
+		for (EnrichedPerformance perf : performances) {
 			result += amountFor(perf);
 		}
 		return result;
 	}
 
-	private int totalVolumeCredits(List<Performance> performances) {
+	private int totalVolumeCredits(List<EnrichedPerformance> performances) {
 		int result = 0;
-		for (Performance perf : performances) {
+		for (EnrichedPerformance perf : performances) {
 			result += volumeCreditsFor(perf);
 		}
 		return result;
 	}
 
-	private int amountFor(Performance aPerformance) {
+	private int amountFor(EnrichedPerformance aPerformance) {
 		int result;
 		switch (playFor(aPerformance).getType()) {
 			case "tragedy":
@@ -72,11 +81,11 @@ public class Statement {
 		return result;
 	}
 
-	private Play playFor(Performance aPerformance) {
-		return plays.get(aPerformance.getPlayID());
+	private Play playFor(EnrichedPerformance aPerformance) {
+		return plays.get(aPerformance.getPlayId());
 	}
 
-	private int volumeCreditsFor(Performance aPerformance) {
+	private int volumeCreditsFor(EnrichedPerformance aPerformance) {
 		int result = 0;
 		result += Math.max(aPerformance.getAudience() - 30, 0);
 		if ("comedy".equals(playFor(aPerformance).getType())) {

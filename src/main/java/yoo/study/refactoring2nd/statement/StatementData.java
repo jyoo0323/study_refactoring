@@ -9,5 +9,5 @@ import lombok.Setter;
 @Setter
 public class StatementData {
 	private String customer;
-	private List<Performance> performances;
+	private List<EnrichedPerformance> performances;
 }
