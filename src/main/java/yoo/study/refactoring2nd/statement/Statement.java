@@ -42,11 +42,7 @@ public class Statement {
 	}
 
 	private int totalAmount(List<EnrichedPerformance> performances) {
-		int result = 0;
-		for (EnrichedPerformance perf : performances) {
-			result += perf.getAmount();
-		}
-		return result;
+		return performances.stream().reduce(0, (total, perf) -> total + perf.getAmount(), Integer::sum);
 	}
 
 	private int totalVolumeCredits(List<EnrichedPerformance> performances) {
