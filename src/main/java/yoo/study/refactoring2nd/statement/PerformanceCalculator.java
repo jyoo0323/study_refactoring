@@ -4,14 +4,15 @@ import lombok.Builder;
 
 @Builder
 public class PerformanceCalculator {
-	private Performance performance;
-	private Play play;
+	protected Performance performance;
+	protected Play play;
 
 	public static PerformanceCalculator create(Performance perf, Play play) {
-		return PerformanceCalculator.builder()
-			.performance(perf)
-			.play(play)
-			.build();
+		return switch (play.getType()) {
+			case "tragedy" -> new TragedyCalculator(perf, play);
+			case "comedy" -> new ComedyCalculator(perf, play);
+			default -> throw new RuntimeException("알 수 없는 장르: " + play.getType());
+		};
 	}
 
 	public int amountFor() {
