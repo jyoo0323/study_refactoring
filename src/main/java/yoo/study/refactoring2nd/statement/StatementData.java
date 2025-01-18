@@ -10,4 +10,5 @@ import lombok.Setter;
 public class StatementData {
 	private String customer;
 	private List<EnrichedPerformance> performances;
+	private int totalAmount;
 }
