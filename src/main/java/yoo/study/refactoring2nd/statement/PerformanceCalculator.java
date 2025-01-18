@@ -15,11 +15,11 @@ public class PerformanceCalculator {
 		};
 	}
 
-	public int amountFor() {
+	public int amount() {
 		throw new UnsupportedOperationException("서브클래스에서 처리하도록 설계되었습니다.");
 	}
 
-	public int volumeCreditsFor() {
+	public int volumeCredits() {
 		return Math.max(performance.getAudience() - 30, 0);
 	}
 }

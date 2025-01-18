@@ -18,8 +18,8 @@ public class EnrichedPerformance {
 			.playId(perf.getPlayID())
 			.play(play)
 			.audience(perf.getAudience())
-			.amount(calculator.amountFor())
-			.volumeCredits(calculator.volumeCreditsFor())
+			.amount(calculator.amount())
+			.volumeCredits(calculator.volumeCredits())
 			.build();
 	}
 }

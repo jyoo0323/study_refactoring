@@ -6,7 +6,7 @@ public class TragedyCalculator extends PerformanceCalculator {
 	}
 
 	@Override
-	public int amountFor() {
+	public int amount() {
 		int result = 40000;
 		if (performance.getAudience() > 30) {
 			result += 1000 * (performance.getAudience() - 30);
