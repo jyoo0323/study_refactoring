@@ -10,4 +10,5 @@ public class EnrichedPerformance {
 	private Play play;
 	private int audience;
 	private int amount;
+	private int volumeCredits;
 }

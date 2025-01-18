@@ -29,6 +29,7 @@ public class Statement {
 		result.setPlay(plays.get(aPerformance.getPlayID()));
 		result.setAudience(aPerformance.getAudience());
 		result.setAmount(amountFor(result));
+		result.setVolumeCredits(volumeCreditsFor(result));
 		return result;
 	}
 
@@ -55,7 +56,7 @@ public class Statement {
 	private int totalVolumeCredits(List<EnrichedPerformance> performances) {
 		int result = 0;
 		for (EnrichedPerformance perf : performances) {
-			result += volumeCreditsFor(perf);
+			result += perf.getVolumeCredits();
 		}
 		return result;
 	}
