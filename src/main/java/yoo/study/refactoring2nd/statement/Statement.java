@@ -24,13 +24,7 @@ public class Statement {
 	}
 
 	private EnrichedPerformance enrichPerformance(Performance aPerformance) {
-		EnrichedPerformance result = new EnrichedPerformance();
-		result.setPlayId(aPerformance.getPlayID());
-		result.setPlay(plays.get(aPerformance.getPlayID()));
-		result.setAudience(aPerformance.getAudience());
-		result.setAmount(amountFor(result));
-		result.setVolumeCredits(volumeCreditsFor(result));
-		return result;
+		return EnrichedPerformance.create(aPerformance, plays.get(aPerformance.getPlayID()));
 	}
 
 	private String renderPlainText(StatementData data) {
@@ -57,41 +51,6 @@ public class Statement {
 		int result = 0;
 		for (EnrichedPerformance perf : performances) {
 			result += perf.getVolumeCredits();
-		}
-		return result;
-	}
-
-	private int amountFor(EnrichedPerformance aPerformance) {
-		int result;
-		switch (playFor(aPerformance).getType()) {
-			case "tragedy":
-				result = 40000;
-				if (aPerformance.getAudience() > 30) {
-					result += 1000 * (aPerformance.getAudience() - 30);
-				}
-				break;
-			case "comedy":
-				result = 30000;
-				if (aPerformance.getAudience() > 20) {
-					result += 10000 + 500 * (aPerformance.getAudience() - 20);
-				}
-				result += 300 * aPerformance.getAudience();
-				break;
-			default:
-				throw new RuntimeException("알 수 없는 장르: " + playFor(aPerformance).getType());
-		}
-		return result;
-	}
-
-	private Play playFor(EnrichedPerformance aPerformance) {
-		return plays.get(aPerformance.getPlayId());
-	}
-
-	private int volumeCreditsFor(EnrichedPerformance aPerformance) {
-		int result = 0;
-		result += Math.max(aPerformance.getAudience() - 30, 0);
-		if ("comedy".equals(playFor(aPerformance).getType())) {
-			result += Math.floor(aPerformance.getAudience() / 5);
 		}
 		return result;
 	}
