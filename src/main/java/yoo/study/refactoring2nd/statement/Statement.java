@@ -46,11 +46,7 @@ public class Statement {
 	}
 
 	private int totalVolumeCredits(List<EnrichedPerformance> performances) {
-		int result = 0;
-		for (EnrichedPerformance perf : performances) {
-			result += perf.getVolumeCredits();
-		}
-		return result;
+		return performances.stream().reduce(0, (total, perf) -> total + perf.getVolumeCredits(), Integer::sum);
 	}
 
 	private String usd(int aNumber) {
