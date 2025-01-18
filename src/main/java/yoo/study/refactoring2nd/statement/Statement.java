@@ -16,13 +16,16 @@ public class Statement {
 	}
 
 	public String statement() {
+		return renderPlainText(createStatementData(invoice, plays));
+	}
+
+	public StatementData createStatementData(Invoice invoice, Map<String, Play> plays) {
 		StatementData statementData = new StatementData();
 		statementData.setCustomer(invoice.getCustomer());
 		statementData.setPerformances(invoice.getPerformances().stream().map(this::enrichPerformance).toList());
 		statementData.setTotalAmount(totalAmount(statementData.getPerformances()));
 		statementData.setTotalVolumeCredits(totalVolumeCredits(statementData.getPerformances()));
-
-		return renderPlainText(statementData);
+		return statementData;
 	}
 
 	private EnrichedPerformance enrichPerformance(Performance aPerformance) {
