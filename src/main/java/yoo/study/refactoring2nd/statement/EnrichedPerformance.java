@@ -13,6 +13,7 @@ public class EnrichedPerformance {
 	private int volumeCredits;
 
 	public static EnrichedPerformance create(Performance perf, Play play) {
+		PerformanceCalculator calculator = PerformanceCalculator.create(perf, play);
 		return EnrichedPerformance.builder()
 			.playId(perf.getPlayID())
 			.play(play)
