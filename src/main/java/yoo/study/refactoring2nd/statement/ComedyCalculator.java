@@ -14,4 +14,9 @@ public class ComedyCalculator extends PerformanceCalculator {
 		result += 300 * performance.getAudience();
 		return result;
 	}
+
+	@Override
+	public int volumeCreditsFor() {
+		return super.volumeCreditsFor() + (int)Math.floor(performance.getAudience() / 5);
+	}
 }
